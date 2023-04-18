@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mbti/widget/test_widget.dart';
 import 'package:mbti/screen/test_screen3.dart';
 
-class TestScreen2 extends StatelessWidget {
+class TestScreen2 extends StatefulWidget {
   const TestScreen2({Key? key}) : super(key: key);
+
+  @override
+  State<TestScreen2> createState() => _TestScreen2State();
+}
+
+class _TestScreen2State extends State<TestScreen2> {
+  //다음버튼 활성화를 위해 개수 세는 변수
+  List<String> selectedAnswers = List.filled(6, '');
+  bool isNextButtonEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +76,17 @@ class TestScreen2 extends StatelessWidget {
                 child: const Text('뒤로 가기'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TestScreen3()),
-                  );
-                },
-                child: const Text('다음'),
+                onPressed: isNextButtonEnabled
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TestScreen3()),
+                        );
+                      }
+                    : null, // 버튼을 비활성화하기 위해 null로 설정합니다.
+                child: Text(
+                    isNextButtonEnabled ? '다음' : '다음'), // 버튼 텍스트를 동적으로 설정합니다.
               ),
             ],
           ),
